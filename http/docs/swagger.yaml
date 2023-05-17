@@ -1,0 +1,245 @@
+basePath: /api/v1
+info:
+  contact: {}
+paths:
+  /channels/:channelId/subscriptions:
+    get:
+      consumes:
+      - application/json
+      description: delete channel
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: get channel subscriber list
+      tags:
+      - channel
+    post:
+      consumes:
+      - application/json
+      description: delete channel
+      parameters:
+      - collectionFormat: csv
+        description: user id array
+        in: query
+        items:
+          type: string
+        name: user_ids
+        required: true
+        type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: delete channel
+      tags:
+      - channel
+  /subscriptions/:subId:
+    delete:
+      consumes:
+      - application/json
+      description: unsubscribe channel
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: unsubscribe channel
+      tags:
+      - channel
+    put:
+      consumes:
+      - application/json
+      description: get channel subscriber list
+      parameters:
+      - description: nickname
+        in: query
+        name: nickname
+        required: true
+        type: string
+      - description: avatar_url
+        in: query
+        name: avatar_url
+        required: true
+        type: string
+      - description: allow user in same channel to visit your homepage
+        in: query
+        name: allow_follow
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: update channel subscription
+      tags:
+      - channel
+  /users/:userId/channels:
+    get:
+      consumes:
+      - application/json
+      description: get user channel list
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: get user channel list
+      tags:
+      - channel
+    post:
+      consumes:
+      - application/json
+      description: create channel
+      parameters:
+      - description: channel name
+        in: query
+        name: name
+        required: true
+        type: string
+      - description: channel description
+        in: query
+        name: description
+        type: string
+      - description: channel group
+        in: query
+        name: group
+        required: true
+        type: string
+      - description: creator id
+        in: query
+        name: creator_id
+        required: true
+        type: string
+      - collectionFormat: csv
+        description: subscribe user id
+        in: query
+        items:
+          type: string
+        name: subscribe_user_id
+        type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: create channel
+      tags:
+      - channel
+  /users/:userId/channels/:channelId:
+    delete:
+      consumes:
+      - application/json
+      description: delete channel
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: delete channel
+      tags:
+      - channel
+    get:
+      consumes:
+      - application/json
+      description: get channel detail
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: get channel detail
+      tags:
+      - channel
+    post:
+      consumes:
+      - application/json
+      description: post message to channel
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: post message to channel
+      tags:
+      - channel
+    put:
+      consumes:
+      - application/json
+      description: update channel
+      parameters:
+      - description: channel name
+        in: query
+        name: name
+        required: true
+        type: string
+      - description: channel description
+        in: query
+        name: description
+        type: string
+      - description: channel group
+        in: query
+        name: group
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: update channel
+      tags:
+      - channel
+  /users/:userId/messages/:msgId:
+    delete:
+      consumes:
+      - application/json
+      description: delete message
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: delete message
+      tags:
+      - channel
+    put:
+      consumes:
+      - application/json
+      description: edit message
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: edit message
+      tags:
+      - channel
+swagger: "2.0"
