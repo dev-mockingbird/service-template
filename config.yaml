@@ -1,4 +1,8 @@
 http:
-  port: 8082
+  port: 9000
+grpc:
+  port: 9500
 db:
   dbms: mysql
+  password: test1234
+  database: mockingbird

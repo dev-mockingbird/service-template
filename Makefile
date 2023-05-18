@@ -21,7 +21,7 @@ tidy:
 	@go mod tidy
 
 .PHONY: build
-build:
+build: 
 	@go build -o build/channel main.go
 
 .PHONY: test

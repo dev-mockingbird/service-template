@@ -7,7 +7,10 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
+	"udious.com/mockingbird/channel/pkg/apps"
 )
+
+var _ apps.StartStopper = &StartStopper{}
 
 type StartStopper struct {
 	Server             *grpc.Server

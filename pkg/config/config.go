@@ -44,12 +44,18 @@ type HttpConfig struct {
 	Port    int
 }
 
+type GrpcConfig struct {
+	Disable bool
+	Port    int
+}
+
 type JaegerConfig struct {
 	URL string
 }
 
 type Config struct {
 	Http   HttpConfig
+	Grpc   GrpcConfig
 	DB     DBConfig
 	Redis  RedisConfig
 	Kafka  KafkaConfig
@@ -103,6 +109,8 @@ func ReadInput(cfg *Config, logger logf.Logger) error {
 	pflag.String("jaeger.url", "", "jaeger url")
 	pflag.String("http.disable", "", "enable http or not")
 	pflag.Int("http.port", 7000, "http port")
+	pflag.String("grpc.disable", "", "enable grpc or not")
+	pflag.Int("grpc.port", 7001, "grpc port")
 	pflag.Parse()
 	if jsonFile != "" {
 		viper.SetConfigType("json")

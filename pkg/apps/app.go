@@ -1,10 +1,13 @@
 package apps
 
 import (
-	"errors"
+	"context"
 	"fmt"
 	"sync"
 
+	"github.com/dev-mockingbird/errors"
+	"github.com/dev-mockingbird/events"
+	"github.com/dev-mockingbird/logf"
 	"github.com/redis/go-redis/v9"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -12,13 +15,20 @@ import (
 )
 
 type App struct {
-	Cfg       config.Config
-	db        *gorm.DB
-	dbinit    sync.Once
-	dberr     error
-	redis     *redis.Client
-	rediserr  error
-	redisinit sync.Once
+	Cfg          config.Config
+	Name         string
+	Version      string
+	logger       logf.Logger
+	initlogger   sync.Once
+	db           *gorm.DB
+	dbinit       sync.Once
+	dberr        error
+	redis        *redis.Client
+	rediserr     error
+	redisinit    sync.Once
+	servers      StartStoppers
+	eventbuses   map[string]events.EventBus
+	eventbuslock sync.Mutex
 }
 
 func (app *App) DB() (*gorm.DB, error) {
@@ -37,6 +47,13 @@ func (app *App) DB() (*gorm.DB, error) {
 	return app.db, app.dberr
 }
 
+func (app *App) Logger() logf.Logger {
+	app.initlogger.Do(func() {
+		app.logger = logf.New()
+	})
+	return app.logger
+}
+
 func (app *App) Redis() (*redis.Client, error) {
 	app.redisinit.Do(func() {
 		if app.Cfg.Redis.Disable {
@@ -51,4 +68,17 @@ func (app *App) Redis() (*redis.Client, error) {
 		})
 	})
 	return app.redis, app.rediserr
+}
+
+func (app *App) With(s StartStopper) *App {
+	app.servers = append(app.servers, s)
+	return app
+}
+
+func (app *App) Start() chan error {
+	return app.servers.Start()
+}
+
+func (app *App) Stop(ctx context.Context) error {
+	return app.servers.Stop(ctx)
 }
