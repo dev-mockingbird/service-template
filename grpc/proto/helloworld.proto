@@ -1,0 +1,22 @@
+
+syntax = "proto3";
+
+package helloworld;
+
+option go_package = ".;proto";
+
+// the greeting service definition.
+service greeter {
+  // sends a greeting
+  rpc sayhello (hellorequest) returns (helloreply) {}
+}
+
+// the request message containing the user's name.
+message hellorequest {
+  string name = 1;
+}
+
+// the response message containing the greetings
+message helloreply {
+  string message = 1;
+}
